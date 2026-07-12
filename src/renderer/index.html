@@ -51,22 +51,6 @@
           <circle cx="85" cy="9" r="3.2" />
         </g>
 
-        <!-- idle-activity props (hidden by default, shown per activity-* class) -->
-        <!-- sleepy "z z z" -->
-        <g class="prop prop-zzz">
-          <text x="70" y="26" class="zzz z1">z</text>
-          <text x="78" y="19" class="zzz z2">z</text>
-          <text x="86" y="12" class="zzz z3">z</text>
-        </g>
-        <!-- music note (whistle) -->
-        <g class="prop prop-note">
-          <text x="72" y="24" class="note">&#9834;</text>
-        </g>
-        <!-- sweat drop (bored/sigh) -->
-        <path class="prop prop-sweat" d="M74 30 q3 5 0 8 q-3 -3 0 -8 z" />
-        <!-- waving hand -->
-        <text x="82" y="80" class="prop prop-wave-hand">&#128075;</text>
-
         <!-- body -->
         <rect class="body" x="30" y="66" width="40" height="34" rx="9" />
         <!-- status light / core -->
@@ -74,6 +58,78 @@
         <!-- arms -->
         <rect class="arm arm-left" x="18" y="72" width="8" height="18" rx="4" />
         <rect class="arm arm-right" x="74" y="72" width="8" height="18" rx="4" />
+
+        <!-- idle-activity props: drawn objects (no emoji/text captions), hidden by
+             default and revealed by the matching .activity-* class. Placed last so
+             objects render on top of the robot. -->
+        <!-- sleepy "z z z" -->
+        <g class="prop prop-zzz">
+          <text x="70" y="26" class="zzz z1">z</text>
+          <text x="78" y="19" class="zzz z2">z</text>
+          <text x="86" y="12" class="zzz z3">z</text>
+        </g>
+        <!-- music note (whistle), drawn from shapes -->
+        <g class="prop prop-note">
+          <ellipse class="note-head" cx="72" cy="27" rx="3.2" ry="2.4" transform="rotate(-20 72 27)" />
+          <line class="note-stem" x1="75" y1="26" x2="75" y2="13" />
+          <path class="note-flag" d="M75 13 q5 1 4 6" />
+        </g>
+        <!-- sweat drop (bored/sigh) -->
+        <path class="prop prop-sweat" d="M74 30 q3 5 0 8 q-3 -3 0 -8 z" />
+        <!-- waving hand (drawn mitten) -->
+        <circle class="prop prop-wave-hand" cx="82" cy="70" r="4" />
+        <!-- juggling balls -->
+        <g class="prop prop-juggle">
+          <circle class="ball ball1" cx="40" cy="40" r="3.4" />
+          <circle class="ball ball2" cx="50" cy="34" r="3.4" />
+          <circle class="ball ball3" cx="60" cy="40" r="3.4" />
+        </g>
+        <!-- balloon on a string -->
+        <g class="prop prop-balloon">
+          <line class="balloon-string" x1="78" y1="74" x2="80" y2="32" />
+          <ellipse class="balloon-body" cx="80" cy="21" rx="9" ry="11" />
+          <path class="balloon-knot" d="M80 32 l-2 3 h4 z" />
+        </g>
+        <!-- spinning top -->
+        <g class="prop prop-top">
+          <polygon class="top-body" points="45,104 55,104 50,115" />
+          <ellipse class="top-cap" cx="50" cy="104" rx="5" ry="1.6" />
+          <line class="top-stem" x1="50" y1="99" x2="50" y2="104" />
+        </g>
+        <!-- coffee cup with steam -->
+        <g class="prop prop-coffee">
+          <path class="steam s1" d="M63 42 q2 -3 0 -6" />
+          <path class="steam s2" d="M67 42 q2 -3 0 -6" />
+          <rect class="cup" x="59" y="44" width="10" height="9" rx="1.5" />
+          <path class="cup-handle" d="M69 46 q4 0 4 3.5 q0 3.5 -4 3.5" />
+        </g>
+        <!-- open book -->
+        <g class="prop prop-book">
+          <path class="book-pages" d="M35 84 q7.5 -3 15 0 q7.5 -3 15 0 v12 q-7.5 -3 -15 0 q-7.5 -3 -15 0 z" />
+          <line class="book-spine" x1="50" y1="84" x2="50" y2="96" />
+        </g>
+        <!-- floating gears -->
+        <g class="prop prop-gears">
+          <g class="gear gear1" transform="translate(84 30)">
+            <g class="cogspin">
+              <circle class="cog" r="5" />
+              <circle class="hub" r="1.6" />
+            </g>
+          </g>
+          <g class="gear gear2" transform="translate(91 41)">
+            <g class="cogspin">
+              <circle class="cog" r="3.6" />
+              <circle class="hub" r="1.2" />
+            </g>
+          </g>
+        </g>
+        <!-- charging battery -->
+        <g class="prop prop-battery">
+          <rect class="batt-body" x="40" y="9" width="20" height="9" rx="1.5" />
+          <rect class="batt-tip" x="60" y="11.5" width="2.5" height="4" rx="1" />
+          <rect class="batt-fill" x="42" y="11" width="4" height="5" rx="0.8" />
+          <path class="batt-bolt" d="M51 10.5 l-3.5 4 h2.5 l-2 3.5 5 -5 h-2.5 z" />
+        </g>
       </svg>
       <div id="caption" class="caption"></div>
     </div>
