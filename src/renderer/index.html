@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline';" />
+    <title>Copilot CLI Mascot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Character module: an original robot mascot (SVG). Expression/animation is
+         driven by the .state-* class on #mascot, set by renderer.js. -->
+    <div id="mascot" class="state-idle" title="Copilot CLI mascot (drag to move)">
+      <svg class="robot" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-label="robot mascot">
+        <!-- antenna -->
+        <line class="antenna-stem" x1="50" y1="22" x2="50" y2="10" />
+        <circle class="antenna-bulb" cx="50" cy="7" r="4" />
+
+        <!-- head -->
+        <rect class="head" x="22" y="22" width="56" height="42" rx="13" />
+
+        <!-- face screen -->
+        <rect class="face" x="28" y="28" width="44" height="30" rx="8" />
+
+        <!-- eyes: normal -->
+        <g class="eyes eyes-normal">
+          <circle class="eye-white" cx="40" cy="42" r="6" />
+          <circle class="eye-white" cx="60" cy="42" r="6" />
+          <circle class="pupil" cx="40" cy="42" r="2.6" />
+          <circle class="pupil" cx="60" cy="42" r="2.6" />
+        </g>
+        <!-- eyes: happy (done) -->
+        <g class="eyes eyes-happy">
+          <path d="M35 44 q5 -6 10 0" />
+          <path d="M55 44 q5 -6 10 0" />
+        </g>
+        <!-- eyes: error (X) -->
+        <g class="eyes eyes-error">
+          <line x1="36" y1="38" x2="44" y2="46" />
+          <line x1="44" y1="38" x2="36" y2="46" />
+          <line x1="56" y1="38" x2="64" y2="46" />
+          <line x1="64" y1="38" x2="56" y2="46" />
+        </g>
+
+        <!-- mouth -->
+        <path id="mouth" d="M42 52 h16" />
+
+        <!-- thinking dots -->
+        <g class="think-dots">
+          <circle cx="70" cy="20" r="2" />
+          <circle cx="77" cy="15" r="2.6" />
+          <circle cx="85" cy="9" r="3.2" />
+        </g>
+
+        <!-- body -->
+        <rect class="body" x="30" y="66" width="40" height="34" rx="9" />
+        <!-- status light / core -->
+        <circle class="core" cx="50" cy="83" r="5" />
+        <!-- arms -->
+        <rect class="arm arm-left" x="18" y="72" width="8" height="18" rx="4" />
+        <rect class="arm arm-right" x="74" y="72" width="8" height="18" rx="4" />
+      </svg>
+      <div id="caption" class="caption"></div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

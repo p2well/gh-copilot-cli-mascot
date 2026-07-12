@@ -1,0 +1,21 @@
+{
+  "name": "gh-copilot-cli-mascot",
+  "version": "0.1.0",
+  "description": "Unofficial always-on desktop robot mascot that reacts to GitHub Copilot CLI activity via hooks.",
+  "author": "gh-copilot-cli-mascot authors",
+  "license": "MIT",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "tsc -p tsconfig.renderer.json",
+    "copy:assets": "node scripts/copy-assets.mjs",
+    "build": "npm run build:main && npm run build:renderer && npm run copy:assets",
+    "start": "npm run build && electron .",
+    "dev": "npm run build && electron ."
+  },
+  "devDependencies": {
+    "electron": "^32.2.0",
+    "typescript": "^5.6.3"
+  }
+}
