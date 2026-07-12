@@ -31,6 +31,19 @@ Copilot CLI event -> hook (PowerShell) -> POST /state -> Electron app -> animate
 | Done     | agentStop                              | happy smile, quick bounce     |
 | Error    | errorOccurred / postToolUseFailure     | worried X eyes, red, shake    |
 
+### Idle activities (coming alive)
+
+To make the robot feel alive during downtime, it plays a short, **random funny activity**
+whenever it has been idle for more than **10 seconds**. It performs one activity, returns
+to a calm idle, and — after another ~10 seconds of idle — picks a different one. Any real
+CLI activity (thinking/working/done/error) instantly interrupts the fun and takes over.
+
+There are a dozen activities, including: a little dance 🎶, a yawn &amp; stretch, looking
+around, whistling 🎵, dozing off 😴, a quick spin, wobbling its arms, a peekaboo blink 👀,
+hopping, a bored sigh 😐, waving hello 👋, and pondering 🤔. The next activity is chosen at
+random (never the same one twice in a row), so the robot feels spontaneous. Activities also
+respect the OS `prefers-reduced-motion` setting.
+
 ## Requirements
 
 - Windows with [PowerShell](https://learn.microsoft.com/powershell/) (Windows PowerShell 5.1 or

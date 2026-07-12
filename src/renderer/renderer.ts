@@ -40,6 +40,40 @@ const MOUTHS: Record<MascotState, string> = {
 const DONE_TO_IDLE_MS = 3500;
 /** How long the caption stays visible (ms). */
 const CAPTION_MS = 4000;
+/** Idle time before the robot starts a random "alive" activity (ms). */
+const IDLE_ACTIVITY_DELAY_MS = 10000;
+
+/**
+ * Fun idle activities. When the robot has been idle for a while it plays one of
+ * these at random to feel alive, then returns to calm idle and (after another
+ * idle delay) plays a different one. Each activity toggles an `activity-*` class
+ * on #mascot (see styles.css) and optionally shows a short caption/emoji.
+ */
+interface IdleActivity {
+  /** CSS class added to #mascot (without the leading dot). */
+  className: string;
+  /** Optional caption/emoji shown while the activity plays. */
+  caption?: string;
+  /** How long the activity runs before returning to idle (ms). */
+  durationMs: number;
+}
+
+const IDLE_ACTIVITIES: IdleActivity[] = [
+  { className: "activity-dance", caption: "🎶", durationMs: 1800 },
+  { className: "activity-yawn", caption: "*yawn*", durationMs: 2200 },
+  { className: "activity-look", durationMs: 2800 },
+  { className: "activity-whistle", caption: "🎵", durationMs: 2700 },
+  { className: "activity-doze", caption: "😴", durationMs: 3000 },
+  { className: "activity-spin", durationMs: 800 },
+  { className: "activity-wobble", durationMs: 2000 },
+  { className: "activity-peek", caption: "👀", durationMs: 2800 },
+  { className: "activity-hop", durationMs: 2000 },
+  { className: "activity-sigh", caption: "😐", durationMs: 2400 },
+  { className: "activity-wave", caption: "👋", durationMs: 1800 },
+  { className: "activity-ponder", caption: "🤔", durationMs: 1600 },
+];
+
+const ACTIVITY_CLASSES = IDLE_ACTIVITIES.map((a) => a.className);
 
 const root = document.getElementById("mascot") as HTMLElement | null;
 const mouth = document.getElementById("mouth") as SVGPathElement | null;
@@ -47,6 +81,9 @@ const caption = document.getElementById("caption") as HTMLElement | null;
 
 let idleTimer: number | undefined;
 let captionTimer: number | undefined;
+let activityStartTimer: number | undefined;
+let activityEndTimer: number | undefined;
+let lastActivityIndex = -1;
 
 function truncate(text: string, max = 42): string {
   const clean = text.replace(/\s+/g, " ").trim();
@@ -81,9 +118,52 @@ function captionFor(payload: StatePayload): string {
   }
 }
 
+function clearActivity(): void {
+  window.clearTimeout(activityStartTimer);
+  window.clearTimeout(activityEndTimer);
+  activityStartTimer = undefined;
+  activityEndTimer = undefined;
+  if (root) root.classList.remove(...ACTIVITY_CLASSES);
+}
+
+/** Pick a random activity index, avoiding an immediate repeat. */
+function pickActivityIndex(): number {
+  if (IDLE_ACTIVITIES.length <= 1) return 0;
+  let index = lastActivityIndex;
+  while (index === lastActivityIndex) {
+    index = Math.floor(Math.random() * IDLE_ACTIVITIES.length);
+  }
+  return index;
+}
+
+function playRandomActivity(): void {
+  if (!root || !root.classList.contains("state-idle")) return;
+  const index = pickActivityIndex();
+  lastActivityIndex = index;
+  const activity = IDLE_ACTIVITIES[index];
+
+  root.classList.add(activity.className);
+  if (activity.caption) showCaption(activity.caption);
+
+  activityEndTimer = window.setTimeout(() => {
+    root.classList.remove(activity.className);
+    // Back to calm idle; schedule the next activity after another idle delay.
+    scheduleActivity();
+  }, activity.durationMs);
+}
+
+/** Start the timer that kicks off the next idle activity. */
+function scheduleActivity(): void {
+  window.clearTimeout(activityStartTimer);
+  activityStartTimer = window.setTimeout(playRandomActivity, IDLE_ACTIVITY_DELAY_MS);
+}
+
 function applyState(payload: StatePayload): void {
   if (!root) return;
   const state = STATES.includes(payload.state) ? payload.state : "idle";
+
+  // Any incoming state cancels an in-flight idle activity.
+  clearActivity();
 
   // Re-trigger one-shot animations (done/error) even if state repeats.
   root.classList.remove(...STATES.map((s) => `state-${s}`));
@@ -98,6 +178,9 @@ function applyState(payload: StatePayload): void {
   window.clearTimeout(idleTimer);
   if (state === "done" || state === "error") {
     idleTimer = window.setTimeout(() => applyState({ state: "idle" }), DONE_TO_IDLE_MS);
+  } else if (state === "idle") {
+    // Start the "come alive" timer once the robot settles into idle.
+    scheduleActivity();
   }
 }
 
