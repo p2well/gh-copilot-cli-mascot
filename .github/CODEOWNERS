@@ -1,0 +1,5 @@
+# Code owners for gh-copilot-cli-mascot
+# These owners are requested for review on every pull request, and enable
+# branch protection rules that require code owner approval on `main`.
+
+* @p2well
