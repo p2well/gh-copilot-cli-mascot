@@ -171,15 +171,15 @@ body {
   stroke-width: 1.4;
   stroke-linecap: round;
 }
-/* coffee cup */
+/* coffee cup (brown so it stands out from the metal body) */
 .cup {
-  fill: var(--metal);
-  stroke: var(--metal-dark);
+  fill: #8a5a3b;
+  stroke: #5e3c25;
   stroke-width: 1;
 }
 .cup-handle {
   fill: none;
-  stroke: var(--metal-dark);
+  stroke: #5e3c25;
   stroke-width: 1.4;
 }
 .steam {
@@ -189,15 +189,25 @@ body {
   stroke-linecap: round;
   opacity: 0;
 }
-/* open book */
-.book-pages {
-  fill: var(--eye);
-  stroke: var(--metal-dark);
+/* open book (teal cover + cream pages, clearly distinct from the robot) */
+.book-cover {
+  fill: #2e8b8b;
+  stroke: #1f6b6b;
   stroke-width: 1;
 }
+.book-page {
+  fill: #f3ead2;
+  stroke: #cbb98f;
+  stroke-width: 0.6;
+}
+.book-line {
+  stroke: #b9a677;
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
 .book-spine {
-  stroke: var(--metal-dark);
-  stroke-width: 1;
+  stroke: #1f6b6b;
+  stroke-width: 1.2;
 }
 /* gears */
 .cog {
@@ -209,14 +219,14 @@ body {
 .hub {
   fill: var(--metal-dark);
 }
-/* battery (worn on the chest — dark outline + light fill so it reads on the body) */
+/* battery (dark casing on the chest so it clearly stands out from the light body) */
 .batt-body {
-  fill: rgba(255, 255, 255, 0.4);
-  stroke: var(--face);
+  fill: #333c4f;
+  stroke: #1a2233;
   stroke-width: 1.4;
 }
 .batt-tip {
-  fill: var(--face);
+  fill: #333c4f;
 }
 .batt-fill {
   fill: #5fd39a;
@@ -709,10 +719,16 @@ display: block;
 .activity-coffee .steam { animation: act-steam 1.4s ease-in-out infinite; }
 .activity-coffee .steam.s2 { animation-delay: 0.5s; }
 
-/* 17. Read a book (desk item) */
-.activity-read .prop-book {
+/* 17. Read a book: raise both hands, hold the open book up and read it */
+.activity-read .arm {
   transform-box: fill-box;
   transform-origin: 50% 0;
+}
+.activity-read .arm-left { animation: act-juggle-arm-l 3s ease-in-out; }
+.activity-read .arm-right { animation: act-juggle-arm-r 3s ease-in-out; }
+.activity-read .prop-book {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
   animation: act-read 2s ease-in-out infinite;
 }
 .activity-read .pupil {
@@ -816,6 +832,7 @@ display: block;
   .activity-juggle .prop-juggle .ball,
   .activity-top .prop-top,
   .activity-coffee .prop-coffee,
+  .activity-read .arm,
   .activity-read .prop-book,
   .activity-turn .robot,
   .activity-turn .face-front,

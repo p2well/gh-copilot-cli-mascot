@@ -42,10 +42,11 @@ There are ~22 activities, mixing **motion/expression** moments, little **props t
 plays with**, and **antenna effects**. Motion
 moments include a dance, a yawn &amp; stretch, looking around, a quick spin, wobbling its
 arms, a peekaboo blink, hopping, a bored sigh, waving hello, pondering, and turning around to
-show its back panel. Prop moments bring out drawn objects — juggling balls, a floating
-balloon, a spinning top, a coffee cup with steam, an open book, whistling with a music note,
-dozing with little "z"s, spinning gears, and a charging battery. Antenna effects include
-broadcasting expanding signal rings and launching a little firework. The next activity is
+show its back panel. Prop moments bring out drawn objects — the robot raises its hands to
+juggle three balls and to hold up and read an open book, plus a floating balloon, a spinning
+top, a brown coffee cup with steam, whistling with a music note, dozing with little "z"s,
+spinning gears, and a battery charging on its chest. Antenna effects include broadcasting
+signal-wave arcs and launching a colorful firework. The next activity is
 chosen at random (never the same one twice in a row), so the robot feels spontaneous.
 Activities are purely visual (no text/emoji captions) and respect the OS
 `prefers-reduced-motion` setting.
