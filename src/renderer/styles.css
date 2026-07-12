@@ -107,13 +107,13 @@ body {
 }
 .prop-zzz .zzz {
   fill: var(--accent);
-  font: italic 700 10px "Segoe UI", system-ui, sans-serif;
+  font: italic 700 15px "Segoe UI", system-ui, sans-serif;
 }
 .prop-zzz .z2 {
-  font-size: 8px;
+  font-size: 12px;
 }
 .prop-zzz .z3 {
-  font-size: 6px;
+  font-size: 9px;
 }
 /* music note */
 .note-head {
@@ -138,15 +138,17 @@ body {
   stroke: var(--metal-dark);
   stroke-width: 1.2;
 }
-/* juggling balls */
+/* juggling balls — bright, distinct colours (none match the metal arms) */
 .prop-juggle .ball {
-  fill: var(--accent);
+  fill: #ffb03b;
+  stroke: rgba(0, 0, 0, 0.18);
+  stroke-width: 0.5;
 }
 .prop-juggle .ball2 {
-  fill: #ff8a8a;
+  fill: #ff6b6b;
 }
 .prop-juggle .ball3 {
-  fill: #5fd39a;
+  fill: #6aa9ff;
 }
 /* balloon */
 .balloon-body {
@@ -213,14 +215,14 @@ body {
 .hub {
   fill: var(--metal-dark);
 }
-/* battery */
+/* battery (worn on the chest — dark outline + light fill so it reads on the body) */
 .batt-body {
-  fill: none;
-  stroke: var(--metal-dark);
+  fill: rgba(255, 255, 255, 0.4);
+  stroke: var(--face);
   stroke-width: 1.4;
 }
 .batt-tip {
-  fill: var(--metal-dark);
+  fill: var(--face);
 }
 .batt-fill {
   fill: #5fd39a;
@@ -260,11 +262,18 @@ body {
 .fw-burst {
   opacity: 0;
 }
-.fw-burst line {
+.fw-rays line {
   stroke: #ffd45c;
-  stroke-width: 1.4;
+  stroke-width: 1.3;
   stroke-linecap: round;
 }
+.fw-sparks .spark {
+  opacity: 0.95;
+}
+.fw-sparks .s1 { fill: #ffd45c; }
+.fw-sparks .s2 { fill: #ff6b6b; }
+.fw-sparks .s3 { fill: #6aa9ff; }
+.fw-sparks .s4 { fill: #5fd39a; }
 
 /* which eye set + extras are visible per state */
 .eyes-happy,
@@ -728,11 +737,12 @@ display: block;
 }
 .activity-signal .sig {
   transform-box: fill-box;
-  transform-origin: center;
+  transform-origin: 50% 100%;
   animation: act-signal 1.6s ease-out infinite;
 }
-.activity-signal .sig2 { animation-delay: 0.5s; }
-.activity-signal .sig3 { animation-delay: 1s; }
+.activity-signal .sig2 { animation-delay: 0.4s; }
+.activity-signal .sig3 { animation-delay: 0.8s; }
+.activity-signal .sig4 { animation-delay: 1.2s; }
 
 /* 21. Antenna firework (launch + burst) */
 @keyframes act-fw-rise {

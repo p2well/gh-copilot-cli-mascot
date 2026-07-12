@@ -62,9 +62,9 @@
 
         <!-- thinking dots -->
         <g class="think-dots">
-          <circle cx="70" cy="20" r="2" />
-          <circle cx="77" cy="15" r="2.6" />
-          <circle cx="85" cy="9" r="3.2" />
+          <circle cx="69" cy="21" r="1.6" />
+          <circle cx="77" cy="14" r="2.8" />
+          <circle cx="86" cy="7" r="4" />
         </g>
 
         <!-- body -->
@@ -80,9 +80,9 @@
              objects render on top of the robot. -->
         <!-- sleepy "z z z" -->
         <g class="prop prop-zzz">
-          <text x="70" y="26" class="zzz z1">z</text>
-          <text x="78" y="19" class="zzz z2">z</text>
-          <text x="86" y="12" class="zzz z3">z</text>
+          <text x="69" y="30" class="zzz z1">z</text>
+          <text x="78" y="21" class="zzz z2">z</text>
+          <text x="87" y="13" class="zzz z3">z</text>
         </g>
         <!-- music note (whistle), drawn from shapes -->
         <g class="prop prop-note">
@@ -96,9 +96,9 @@
         <circle class="prop prop-wave-hand" cx="82" cy="70" r="4" />
         <!-- juggling balls -->
         <g class="prop prop-juggle">
-          <circle class="ball ball1" cx="40" cy="40" r="3.4" />
-          <circle class="ball ball2" cx="50" cy="34" r="3.4" />
-          <circle class="ball ball3" cx="60" cy="40" r="3.4" />
+          <circle class="ball ball1" cx="39" cy="40" r="4.6" />
+          <circle class="ball ball2" cx="50" cy="33" r="4.6" />
+          <circle class="ball ball3" cx="61" cy="40" r="4.6" />
         </g>
         <!-- balloon on a string -->
         <g class="prop prop-balloon">
@@ -139,31 +139,45 @@
             </g>
           </g>
         </g>
-        <!-- charging battery -->
+        <!-- charging battery (worn on the robot's chest) -->
         <g class="prop prop-battery">
-          <rect class="batt-body" x="40" y="9" width="20" height="9" rx="1.5" />
-          <rect class="batt-tip" x="60" y="11.5" width="2.5" height="4" rx="1" />
-          <rect class="batt-fill" x="42" y="11" width="4" height="5" rx="0.8" />
-          <path class="batt-bolt" d="M51 10.5 l-3.5 4 h2.5 l-2 3.5 5 -5 h-2.5 z" />
+          <rect class="batt-body" x="40" y="70" width="20" height="9" rx="1.5" />
+          <rect class="batt-tip" x="60" y="72.5" width="2.5" height="4" rx="1" />
+          <rect class="batt-fill" x="42" y="72" width="4" height="5" rx="0.8" />
+          <path class="batt-bolt" d="M51 71 l-3.5 4 h2.5 l-2 3.5 5 -5 h-2.5 z" />
         </g>
-        <!-- antenna signal: expanding radio rings from the bulb -->
+        <!-- antenna signal: broadcast waves fanning up from the bulb -->
         <g class="prop prop-signal">
-          <circle class="sig sig1" cx="50" cy="7" r="5" />
-          <circle class="sig sig2" cx="50" cy="7" r="5" />
-          <circle class="sig sig3" cx="50" cy="7" r="5" />
+          <path class="sig sig1" d="M45 7 a5 5 0 0 1 10 0" />
+          <path class="sig sig2" d="M45 7 a5 5 0 0 1 10 0" />
+          <path class="sig sig3" d="M45 7 a5 5 0 0 1 10 0" />
+          <path class="sig sig4" d="M45 7 a5 5 0 0 1 10 0" />
         </g>
-        <!-- antenna firework: a rocket launches from the bulb and bursts -->
+        <!-- antenna firework: a rocket launches from the bulb and bursts into a
+             colorful star of rays tipped with glowing sparks -->
         <g class="prop prop-firework">
           <circle class="fw-rocket" cx="50" cy="7" r="1.8" />
           <g class="fw-burst">
-            <line x1="50" y1="-4" x2="50" y2="-12" />
-            <line x1="50" y1="-4" x2="56" y2="-9" />
-            <line x1="50" y1="-4" x2="58" y2="-4" />
-            <line x1="50" y1="-4" x2="56" y2="1" />
-            <line x1="50" y1="-4" x2="50" y2="4" />
-            <line x1="50" y1="-4" x2="44" y2="1" />
-            <line x1="50" y1="-4" x2="42" y2="-4" />
-            <line x1="50" y1="-4" x2="44" y2="-9" />
+            <g class="fw-rays">
+              <line x1="50" y1="-4" x2="50" y2="-16" />
+              <line x1="50" y1="-4" x2="58" y2="-12" />
+              <line x1="50" y1="-4" x2="62" y2="-4" />
+              <line x1="50" y1="-4" x2="58" y2="4" />
+              <line x1="50" y1="-4" x2="50" y2="8" />
+              <line x1="50" y1="-4" x2="42" y2="4" />
+              <line x1="50" y1="-4" x2="38" y2="-4" />
+              <line x1="50" y1="-4" x2="42" y2="-12" />
+            </g>
+            <g class="fw-sparks">
+              <circle class="spark s1" cx="50" cy="-16" r="1.7" />
+              <circle class="spark s2" cx="58" cy="-12" r="1.7" />
+              <circle class="spark s3" cx="62" cy="-4" r="1.7" />
+              <circle class="spark s4" cx="58" cy="4" r="1.7" />
+              <circle class="spark s1" cx="50" cy="8" r="1.7" />
+              <circle class="spark s2" cx="42" cy="4" r="1.7" />
+              <circle class="spark s3" cx="38" cy="-4" r="1.7" />
+              <circle class="spark s4" cx="42" cy="-12" r="1.7" />
+            </g>
           </g>
         </g>
       </svg>
