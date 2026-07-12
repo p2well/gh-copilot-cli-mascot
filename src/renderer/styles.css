@@ -101,6 +101,33 @@ body {
   fill: var(--accent);
 }
 
+/* idle-activity props */
+.prop {
+  display: none;
+}
+.prop-zzz .zzz {
+  fill: var(--accent);
+  font: italic 700 10px "Segoe UI", system-ui, sans-serif;
+}
+.prop-zzz .z2 {
+  font-size: 8px;
+}
+.prop-zzz .z3 {
+  font-size: 6px;
+}
+.prop-note {
+  fill: var(--accent);
+  font-size: 14px;
+}
+.prop-sweat {
+  fill: #8ec9ff;
+  stroke: #6aa9ff;
+  stroke-width: 0.6;
+}
+.prop-wave-hand {
+  font-size: 14px;
+}
+
 /* which eye set + extras are visible per state */
 .eyes-happy,
 .eyes-error,
@@ -255,4 +282,201 @@ body {
 /* Error: shake */
 .state-error .robot {
   animation: shake 0.5s ease-in-out;
+}
+
+/* ============================================================
+   Idle activities: short, random "alive" moments played after
+   the robot has been idle for a while. Each is driven by an
+   .activity-* class added to #mascot by renderer.js.
+   ============================================================ */
+
+/* reveal the relevant prop for the active activity */
+.activity-doze .prop-zzz,
+.activity-whistle .prop-note,
+.activity-sigh .prop-sweat,
+.activity-wave .prop-wave-hand,
+.activity-ponder .think-dots {
+  display: block;
+}
+
+@keyframes act-dance {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-5px) rotate(-6deg); }
+  75% { transform: translateX(5px) rotate(6deg); }
+}
+@keyframes act-yawn {
+  0%, 100% { transform: scale(1, 1); }
+  40% { transform: scale(0.94, 1.08); }
+  70% { transform: scale(1.05, 0.95); }
+}
+@keyframes act-arms-up {
+  0%, 100% { transform: rotate(0deg); }
+  40%, 70% { transform: rotate(160deg); }
+}
+@keyframes act-look {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2.5px); }
+  75% { transform: translateX(2.5px); }
+}
+@keyframes act-whistle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes act-note-float {
+  0% { transform: translate(0, 0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(6px, -14px); opacity: 0; }
+}
+@keyframes act-droop {
+  0%, 100% { transform: scaleY(1); }
+  40%, 80% { transform: scaleY(0.35); }
+}
+@keyframes act-zzz-float {
+  0% { transform: translate(0, 0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(4px, -10px); opacity: 0; }
+}
+@keyframes act-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes act-wobble-arm-l {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-35deg); }
+}
+@keyframes act-wobble-arm-r {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(35deg); }
+}
+@keyframes act-peek {
+  0%, 100% { transform: scaleY(1); }
+  20%, 60% { transform: scaleY(0.1); }
+  40%, 80% { transform: scaleY(1); }
+}
+@keyframes act-hop {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-16px); }
+  50% { transform: translateY(0); }
+  65% { transform: translateY(-8px); }
+  85% { transform: translateY(0); }
+}
+@keyframes act-sigh {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px) rotate(-2deg); }
+}
+@keyframes act-sweat-drop {
+  0% { transform: translateY(-2px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+@keyframes act-wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-40deg); }
+  75% { transform: rotate(-10deg); }
+}
+@keyframes act-wave-hand {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+}
+@keyframes act-ponder {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-5deg); }
+}
+
+/* helpers for props that transform */
+.robot .prop {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 1. Dance */
+.activity-dance .robot { animation: act-dance 0.6s ease-in-out 3; }
+
+/* 2. Yawn & stretch */
+.activity-yawn .robot { animation: act-yawn 2.2s ease-in-out; }
+.activity-yawn .arm {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: act-arms-up 2.2s ease-in-out;
+}
+.activity-yawn .arm-right { animation-direction: reverse; }
+
+/* 3. Look around */
+.activity-look .pupil {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: act-look 1.4s ease-in-out 2;
+}
+
+/* 4. Whistle */
+.activity-whistle .robot { animation: act-whistle 0.9s ease-in-out 3; }
+.activity-whistle .prop-note { animation: act-note-float 1.5s ease-in-out infinite; }
+
+/* 5. Doze off (zzz) */
+.activity-doze .pupil {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: act-droop 3s ease-in-out;
+}
+.activity-doze .zzz { animation: act-zzz-float 1.5s ease-in-out infinite; }
+.activity-doze .z2 { animation-delay: 0.4s; }
+.activity-doze .z3 { animation-delay: 0.8s; }
+
+/* 6. Spin */
+.activity-spin .robot { animation: act-spin 0.8s ease-in-out; }
+
+/* 7. Wobble arms */
+.activity-wobble .arm {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+.activity-wobble .arm-left { animation: act-wobble-arm-l 0.5s ease-in-out 4; }
+.activity-wobble .arm-right { animation: act-wobble-arm-r 0.5s ease-in-out 4; }
+
+/* 8. Peekaboo blink */
+.activity-peek .pupil {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: act-peek 1.4s ease-in-out 2;
+}
+
+/* 9. Hop */
+.activity-hop .robot { animation: act-hop 1s ease-in-out 2; }
+
+/* 10. Bored sigh */
+.activity-sigh .robot { animation: act-sigh 2.4s ease-in-out; }
+.activity-sigh .prop-sweat { animation: act-sweat-drop 1.6s ease-in infinite; }
+
+/* 11. Wave hello */
+.activity-wave .arm-right {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: act-wave 0.6s ease-in-out 3;
+}
+.activity-wave .prop-wave-hand { animation: act-wave-hand 0.6s ease-in-out 3; }
+
+/* 12. Ponder */
+.activity-ponder .robot { animation: act-ponder 1.6s ease-in-out; }
+.activity-ponder .think-dots circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.activity-ponder .think-dots circle:nth-child(2) { animation-delay: 0.2s; }
+.activity-ponder .think-dots circle:nth-child(3) { animation-delay: 0.4s; }
+
+/* Respect reduced-motion: keep captions/props but drop the big movement. */
+@media (prefers-reduced-motion: reduce) {
+  .activity-dance .robot,
+  .activity-yawn .robot,
+  .activity-yawn .arm,
+  .activity-whistle .robot,
+  .activity-spin .robot,
+  .activity-wobble .arm,
+  .activity-hop .robot,
+  .activity-sigh .robot,
+  .activity-wave .arm-right,
+  .activity-ponder .robot {
+    animation: none;
+  }
 }
