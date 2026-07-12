@@ -74,7 +74,6 @@ const IDLE_ACTIVITIES: IdleActivity[] = [
   { className: "activity-doze", durationMs: 3000 },
   { className: "activity-juggle", durationMs: 2800 },
   { className: "activity-balloon", durationMs: 3200 },
-  { className: "activity-top", durationMs: 2600 },
   { className: "activity-coffee", durationMs: 2800 },
   { className: "activity-read", durationMs: 3000 },
   { className: "activity-gears", durationMs: 2800 },
