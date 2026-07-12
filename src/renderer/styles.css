@@ -132,12 +132,6 @@ body {
   stroke: #6aa9ff;
   stroke-width: 0.6;
 }
-/* waving hand (mitten) */
-.prop-wave-hand {
-  fill: var(--metal);
-  stroke: var(--metal-dark);
-  stroke-width: 1.2;
-}
 /* juggling balls — bright, distinct colours (none match the metal arms) */
 .prop-juggle .ball {
   fill: #ffb03b;
@@ -441,7 +435,6 @@ body {
 .activity-doze .prop-zzz,
 .activity-whistle .prop-note,
 .activity-sigh .prop-sweat,
-.activity-wave .prop-wave-hand,
 .activity-ponder .think-dots,
 .activity-juggle .prop-juggle,
 .activity-balloon .prop-balloon,
@@ -526,21 +519,35 @@ display: block;
   100% { transform: translateY(10px); opacity: 0; }
 }
 @keyframes act-wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-40deg); }
-  75% { transform: rotate(-10deg); }
-}
-@keyframes act-wave-hand {
-  0%, 100% { transform: translate(-2px, 0); }
-  50% { transform: translate(3px, -3px); }
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-135deg); }
+  30% { transform: rotate(-115deg); }
+  45% { transform: rotate(-140deg); }
+  60% { transform: rotate(-115deg); }
+  75% { transform: rotate(-140deg); }
+  90% { transform: rotate(-120deg); }
+  100% { transform: rotate(0deg); }
 }
 @keyframes act-ponder {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(-5deg); }
 }
-@keyframes act-juggle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-13px); }
+@keyframes act-juggle-throw {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-8px, -21px); }
+  50% { transform: translate(-24px, 0); }
+  75% { transform: translate(-16px, -21px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes act-juggle-arm-l {
+  0% { transform: rotate(0deg); }
+  12%, 88% { transform: rotate(-120deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes act-juggle-arm-r {
+  0% { transform: rotate(0deg); }
+  12%, 88% { transform: rotate(120deg); }
+  100% { transform: rotate(0deg); }
 }
 @keyframes act-balloon {
   0%, 100% { transform: translateY(0) rotate(-3deg); }
@@ -645,13 +652,12 @@ display: block;
 .activity-sigh .robot { animation: act-sigh 2.4s ease-in-out; }
 .activity-sigh .prop-sweat { animation: act-sweat-drop 1.6s ease-in infinite; }
 
-/* 11. Wave hello */
+/* 11. Wave hello: raise the right arm and rock it side to side */
 .activity-wave .arm-right {
   transform-box: fill-box;
   transform-origin: 50% 0;
-  animation: act-wave 0.6s ease-in-out 3;
+  animation: act-wave 1.8s ease-in-out;
 }
-.activity-wave .prop-wave-hand { animation: act-wave-hand 0.6s ease-in-out 3; }
 
 /* 12. Ponder */
 .activity-ponder .robot { animation: act-ponder 1.6s ease-in-out; }
@@ -663,11 +669,17 @@ display: block;
 .activity-ponder .think-dots circle:nth-child(2) { animation-delay: 0.2s; }
 .activity-ponder .think-dots circle:nth-child(3) { animation-delay: 0.4s; }
 
-/* 13. Juggle (playful toy) */
-.activity-juggle .prop-juggle .ball { animation: act-juggle 0.6s ease-in-out infinite; }
+/* 13. Juggle: raise both hands and cascade the balls in arcs between them */
+.activity-juggle .arm {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+.activity-juggle .arm-left { animation: act-juggle-arm-l 2.8s ease-in-out; }
+.activity-juggle .arm-right { animation: act-juggle-arm-r 2.8s ease-in-out; }
+.activity-juggle .prop-juggle .ball { animation: act-juggle-throw 1.2s linear infinite; }
 .activity-juggle .prop-juggle .ball1 { animation-delay: 0s; }
-.activity-juggle .prop-juggle .ball2 { animation-delay: 0.2s; }
-.activity-juggle .prop-juggle .ball3 { animation-delay: 0.4s; }
+.activity-juggle .prop-juggle .ball2 { animation-delay: -0.4s; }
+.activity-juggle .prop-juggle .ball3 { animation-delay: -0.8s; }
 
 /* 14. Balloon (playful toy) */
 .activity-balloon .prop-balloon {
@@ -800,6 +812,7 @@ display: block;
   .activity-sigh .robot,
   .activity-wave .arm-right,
   .activity-ponder .robot,
+  .activity-juggle .arm,
   .activity-juggle .prop-juggle .ball,
   .activity-top .prop-top,
   .activity-coffee .prop-coffee,
