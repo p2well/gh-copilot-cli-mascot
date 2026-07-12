@@ -18,31 +18,47 @@
         <!-- head -->
         <rect class="head" x="22" y="22" width="56" height="42" rx="13" />
 
-        <!-- face screen -->
-        <rect class="face" x="28" y="28" width="44" height="30" rx="8" />
+        <!-- face front (screen, eyes, mouth) — wrapped so the "turn around"
+             activity can hide it and reveal the back panel while edge-on. -->
+        <g class="face-front">
+          <!-- face screen -->
+          <rect class="face" x="28" y="28" width="44" height="30" rx="8" />
 
-        <!-- eyes: normal -->
-        <g class="eyes eyes-normal">
-          <circle class="eye-white" cx="40" cy="42" r="6" />
-          <circle class="eye-white" cx="60" cy="42" r="6" />
-          <circle class="pupil" cx="40" cy="42" r="2.6" />
-          <circle class="pupil" cx="60" cy="42" r="2.6" />
-        </g>
-        <!-- eyes: happy (done) -->
-        <g class="eyes eyes-happy">
-          <path d="M35 44 q5 -6 10 0" />
-          <path d="M55 44 q5 -6 10 0" />
-        </g>
-        <!-- eyes: error (X) -->
-        <g class="eyes eyes-error">
-          <line x1="36" y1="38" x2="44" y2="46" />
-          <line x1="44" y1="38" x2="36" y2="46" />
-          <line x1="56" y1="38" x2="64" y2="46" />
-          <line x1="64" y1="38" x2="56" y2="46" />
+          <!-- eyes: normal -->
+          <g class="eyes eyes-normal">
+            <circle class="eye-white" cx="40" cy="42" r="6" />
+            <circle class="eye-white" cx="60" cy="42" r="6" />
+            <circle class="pupil" cx="40" cy="42" r="2.6" />
+            <circle class="pupil" cx="60" cy="42" r="2.6" />
+          </g>
+          <!-- eyes: happy (done) -->
+          <g class="eyes eyes-happy">
+            <path d="M35 44 q5 -6 10 0" />
+            <path d="M55 44 q5 -6 10 0" />
+          </g>
+          <!-- eyes: error (X) -->
+          <g class="eyes eyes-error">
+            <line x1="36" y1="38" x2="44" y2="46" />
+            <line x1="44" y1="38" x2="36" y2="46" />
+            <line x1="56" y1="38" x2="64" y2="46" />
+            <line x1="64" y1="38" x2="56" y2="46" />
+          </g>
+
+          <!-- mouth -->
+          <path id="mouth" d="M42 52 h16" />
         </g>
 
-        <!-- mouth -->
-        <path id="mouth" d="M42 52 h16" />
+        <!-- back panel (shown only during the "turn around" activity) -->
+        <g class="face-back">
+          <rect class="back-plate" x="28" y="28" width="44" height="30" rx="8" />
+          <line class="back-vent" x1="34" y1="36" x2="66" y2="36" />
+          <line class="back-vent" x1="34" y1="42" x2="66" y2="42" />
+          <line class="back-vent" x1="34" y1="48" x2="66" y2="48" />
+          <circle class="back-screw" cx="33" cy="32" r="1.3" />
+          <circle class="back-screw" cx="67" cy="32" r="1.3" />
+          <circle class="back-screw" cx="33" cy="54" r="1.3" />
+          <circle class="back-screw" cx="67" cy="54" r="1.3" />
+        </g>
 
         <!-- thinking dots -->
         <g class="think-dots">
@@ -129,6 +145,26 @@
           <rect class="batt-tip" x="60" y="11.5" width="2.5" height="4" rx="1" />
           <rect class="batt-fill" x="42" y="11" width="4" height="5" rx="0.8" />
           <path class="batt-bolt" d="M51 10.5 l-3.5 4 h2.5 l-2 3.5 5 -5 h-2.5 z" />
+        </g>
+        <!-- antenna signal: expanding radio rings from the bulb -->
+        <g class="prop prop-signal">
+          <circle class="sig sig1" cx="50" cy="7" r="5" />
+          <circle class="sig sig2" cx="50" cy="7" r="5" />
+          <circle class="sig sig3" cx="50" cy="7" r="5" />
+        </g>
+        <!-- antenna firework: a rocket launches from the bulb and bursts -->
+        <g class="prop prop-firework">
+          <circle class="fw-rocket" cx="50" cy="7" r="1.8" />
+          <g class="fw-burst">
+            <line x1="50" y1="-4" x2="50" y2="-12" />
+            <line x1="50" y1="-4" x2="56" y2="-9" />
+            <line x1="50" y1="-4" x2="58" y2="-4" />
+            <line x1="50" y1="-4" x2="56" y2="1" />
+            <line x1="50" y1="-4" x2="50" y2="4" />
+            <line x1="50" y1="-4" x2="44" y2="1" />
+            <line x1="50" y1="-4" x2="42" y2="-4" />
+            <line x1="50" y1="-4" x2="44" y2="-9" />
+          </g>
         </g>
       </svg>
       <div id="caption" class="caption"></div>

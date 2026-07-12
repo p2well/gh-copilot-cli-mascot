@@ -12,4 +12,8 @@ contextBridge.exposeInMainWorld("mascotApi", {
       callback(payload);
     });
   },
+  /** Move the mascot window by an integer pixel delta (used by idle activities). */
+  moveBy(dx: number, dy: number): void {
+    ipcRenderer.send("mascot:moveBy", dx, dy);
+  },
 });

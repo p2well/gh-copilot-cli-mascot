@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from "electron";
+import { app, BrowserWindow, ipcMain, screen } from "electron";
 import path from "node:path";
 import http from "node:http";
 import { createStateServer } from "./httpServer";
@@ -64,6 +64,14 @@ function forwardState(payload: StatePayload): void {
 app.whenReady().then(() => {
   createWindow();
   stateServer = createStateServer(resolvePort(), forwardState);
+
+  // Idle activities can ask the window to glide across the desktop.
+  ipcMain.on("mascot:moveBy", (_event, dx: number, dy: number) => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
+    const [x, y] = mainWindow.getPosition();
+    mainWindow.setPosition(Math.round(x + dx), Math.round(y + dy));
+  });
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

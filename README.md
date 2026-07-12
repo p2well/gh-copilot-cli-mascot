@@ -38,14 +38,19 @@ whenever it has been idle for more than **10 seconds**. It performs one activity
 to a calm idle, and — after another ~10 seconds of idle — picks a different one. Any real
 CLI activity (thinking/working/done/error) instantly interrupts the fun and takes over.
 
-There are ~19 activities, mixing **motion/expression** moments with little **props the
-robot plays with**. Motion moments include a dance, a yawn &amp; stretch, looking around, a
-quick spin, wobbling its arms, a peekaboo blink, hopping, a bored sigh, waving hello, and
-pondering. Prop moments bring out drawn objects — juggling balls, a floating balloon, a
-spinning top, a coffee cup with steam, an open book, whistling with a music note, dozing
-with little "z"s, spinning gears, and a charging battery. The next activity is chosen at
-random (never the same one twice in a row), so the robot feels spontaneous. Activities are
-purely visual (no text/emoji captions) and respect the OS `prefers-reduced-motion` setting.
+There are ~24 activities, mixing **motion/expression** moments, little **props the robot
+plays with**, **antenna effects**, and even the robot **moving across your desktop**. Motion
+moments include a dance, a yawn &amp; stretch, looking around, a quick spin, wobbling its
+arms, a peekaboo blink, hopping, a bored sigh, waving hello, pondering, and turning around to
+show its back panel. Prop moments bring out drawn objects — juggling balls, a floating
+balloon, a spinning top, a coffee cup with steam, an open book, whistling with a music note,
+dozing with little "z"s, spinning gears, and a charging battery. Antenna effects include
+broadcasting expanding signal rings and launching a little firework. Occasionally the robot
+even slides off the right edge of the screen and glides back, or nudges to the side — the
+window returns to its exact home position afterward. The next activity is chosen at random
+(never the same one twice in a row), so the robot feels spontaneous. Activities are purely
+visual (no text/emoji captions) and respect the OS `prefers-reduced-motion` setting (which
+also disables the desktop-gliding movement).
 
 ## Requirements
 
