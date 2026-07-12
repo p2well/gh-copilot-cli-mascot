@@ -47,30 +47,40 @@ const IDLE_ACTIVITY_DELAY_MS = 10000;
  * Fun idle activities. When the robot has been idle for a while it plays one of
  * these at random to feel alive, then returns to calm idle and (after another
  * idle delay) plays a different one. Each activity toggles an `activity-*` class
- * on #mascot (see styles.css) and optionally shows a short caption/emoji.
+ * on #mascot (see styles.css). Activities are motion/object based — no captions.
  */
 interface IdleActivity {
   /** CSS class added to #mascot (without the leading dot). */
   className: string;
-  /** Optional caption/emoji shown while the activity plays. */
-  caption?: string;
   /** How long the activity runs before returning to idle (ms). */
   durationMs: number;
 }
 
 const IDLE_ACTIVITIES: IdleActivity[] = [
-  { className: "activity-dance", caption: "🎶", durationMs: 1800 },
-  { className: "activity-yawn", caption: "*yawn*", durationMs: 2200 },
+  // motion / expression
+  { className: "activity-dance", durationMs: 1800 },
+  { className: "activity-yawn", durationMs: 2200 },
   { className: "activity-look", durationMs: 2800 },
-  { className: "activity-whistle", caption: "🎵", durationMs: 2700 },
-  { className: "activity-doze", caption: "😴", durationMs: 3000 },
-  { className: "activity-spin", durationMs: 800 },
+  { className: "activity-spin", durationMs: 900 },
   { className: "activity-wobble", durationMs: 2000 },
-  { className: "activity-peek", caption: "👀", durationMs: 2800 },
+  { className: "activity-peek", durationMs: 2600 },
   { className: "activity-hop", durationMs: 2000 },
-  { className: "activity-sigh", caption: "😐", durationMs: 2400 },
-  { className: "activity-wave", caption: "👋", durationMs: 1800 },
-  { className: "activity-ponder", caption: "🤔", durationMs: 1600 },
+  { className: "activity-sigh", durationMs: 2200 },
+  { className: "activity-wave", durationMs: 1800 },
+  { className: "activity-ponder", durationMs: 1600 },
+  { className: "activity-turn", durationMs: 2600 },
+  // object props: playful toys, desk items, techy gadgets
+  { className: "activity-whistle", durationMs: 2600 },
+  { className: "activity-doze", durationMs: 3000 },
+  { className: "activity-juggle", durationMs: 2800 },
+  { className: "activity-balloon", durationMs: 3200 },
+  { className: "activity-coffee", durationMs: 2800 },
+  { className: "activity-read", durationMs: 3000 },
+  { className: "activity-gears", durationMs: 2800 },
+  { className: "activity-charge", durationMs: 3000 },
+  // antenna effects
+  { className: "activity-signal", durationMs: 2600 },
+  { className: "activity-firework", durationMs: 2200 },
 ];
 
 const ACTIVITY_CLASSES = IDLE_ACTIVITIES.map((a) => a.className);
@@ -143,7 +153,6 @@ function playRandomActivity(): void {
   const activity = IDLE_ACTIVITIES[index];
 
   root.classList.add(activity.className);
-  if (activity.caption) showCaption(activity.caption);
 
   activityEndTimer = window.setTimeout(() => {
     root.classList.remove(activity.className);

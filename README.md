@@ -38,11 +38,18 @@ whenever it has been idle for more than **10 seconds**. It performs one activity
 to a calm idle, and — after another ~10 seconds of idle — picks a different one. Any real
 CLI activity (thinking/working/done/error) instantly interrupts the fun and takes over.
 
-There are a dozen activities, including: a little dance 🎶, a yawn &amp; stretch, looking
-around, whistling 🎵, dozing off 😴, a quick spin, wobbling its arms, a peekaboo blink 👀,
-hopping, a bored sigh 😐, waving hello 👋, and pondering 🤔. The next activity is chosen at
-random (never the same one twice in a row), so the robot feels spontaneous. Activities also
-respect the OS `prefers-reduced-motion` setting.
+There are ~21 activities, mixing **motion/expression** moments, little **props the robot
+plays with**, and **antenna effects**. Motion
+moments include a dance, a yawn &amp; stretch, looking around, a quick spin, wobbling its
+arms, a peekaboo blink, hopping, a bored sigh, waving hello, pondering, and turning around to
+show its back panel. Prop moments bring out drawn objects — the robot raises its hands to
+juggle three balls and to hold up and read an open book, plus a floating balloon, a brown
+coffee cup with steam, whistling with a music note, dozing with little "z"s,
+spinning gears, and a battery charging on its chest. Antenna effects include broadcasting
+signal-wave arcs and launching a colorful firework. The next activity is
+chosen at random (never the same one twice in a row), so the robot feels spontaneous.
+Activities are purely visual (no text/emoji captions) and respect the OS
+`prefers-reduced-motion` setting.
 
 ## Requirements
 
