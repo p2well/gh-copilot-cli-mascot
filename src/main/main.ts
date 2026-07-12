@@ -10,6 +10,52 @@ const MARGIN = 24;
 
 let mainWindow: BrowserWindow | null = null;
 let stateServer: http.Server | null = null;
+let travelTimer: NodeJS.Timeout | null = null;
+let travelHome: { x: number; y: number } | null = null;
+
+/**
+ * Stop any in-flight window glide. When `restore` is true the window is snapped
+ * back to the home position captured when the glide started.
+ */
+function stopTravel(restore: boolean): void {
+  if (travelTimer) {
+    clearInterval(travelTimer);
+    travelTimer = null;
+  }
+  if (restore && travelHome && mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.setPosition(travelHome.x, travelHome.y);
+  }
+  travelHome = null;
+}
+
+/**
+ * Glide the window out-and-back over `durationMs`. The home position is captured
+ * once and every frame is an *absolute* setPosition derived from it, so the
+ * window returns to the exact home pixel with no cumulative rounding drift
+ * (which is important under fractional Windows display scaling).
+ */
+function startTravel(peakX: number, peakY: number, durationMs: number): void {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+  if (![peakX, peakY, durationMs].every((n) => Number.isFinite(n)) || durationMs <= 0) return;
+  stopTravel(true);
+  const [homeX, homeY] = mainWindow.getPosition();
+  travelHome = { x: homeX, y: homeY };
+  const start = Date.now();
+  travelTimer = setInterval(() => {
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      stopTravel(false);
+      return;
+    }
+    const t = Math.min(1, (Date.now() - start) / durationMs);
+    // sin(0..π): ease out to the peak at t=0.5, back to home at t=1.
+    const k = Math.sin(t * Math.PI);
+    mainWindow.setPosition(Math.round(homeX + peakX * k), Math.round(homeY + peakY * k));
+    if (t >= 1) {
+      mainWindow.setPosition(homeX, homeY);
+      stopTravel(false);
+    }
+  }, 16);
+}
 
 /** Position the window in a screen corner (default bottom-right). */
 function computePosition(): { x: number; y: number } {
@@ -65,13 +111,12 @@ app.whenReady().then(() => {
   createWindow();
   stateServer = createStateServer(resolvePort(), forwardState);
 
-  // Idle activities can ask the window to glide across the desktop.
-  ipcMain.on("mascot:moveBy", (_event, dx: number, dy: number) => {
-    if (!mainWindow || mainWindow.isDestroyed()) return;
-    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
-    const [x, y] = mainWindow.getPosition();
-    mainWindow.setPosition(Math.round(x + dx), Math.round(y + dy));
+  // Idle activities can ask the window to glide across the desktop. The
+  // animation runs here (main) so it can return to an absolute home position.
+  ipcMain.on("mascot:travel", (_event, peakX: number, peakY: number, durationMs: number) => {
+    startTravel(peakX, peakY, durationMs);
   });
+  ipcMain.on("mascot:travelCancel", () => stopTravel(true));
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -84,5 +129,6 @@ app.on("window-all-closed", () => {
 });
 
 app.on("before-quit", () => {
+  stopTravel(false);
   stateServer?.close();
 });

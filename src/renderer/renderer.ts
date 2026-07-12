@@ -15,7 +15,10 @@ interface StatePayload {
 
 interface MascotApi {
   onState(callback: (payload: StatePayload) => void): void;
-  moveBy?(dx: number, dy: number): void;
+  /** Glide the window out-and-back by peakX/peakY over durationMs (main-driven). */
+  travel?(peakX: number, peakY: number, durationMs: number): void;
+  /** Cancel an in-flight glide and snap the window back to its home position. */
+  travelCancel?(): void;
 }
 
 // Read the bridge from the global exposed by the preload script. The local
@@ -60,62 +63,21 @@ interface IdleActivity {
 }
 
 /**
- * Glide the window along an out-and-back path and return to the exact starting
- * position. We track the integer pixels already sent so rounding telescopes to
- * zero (no cumulative drift across many activities). `peakX`/`peakY` are the
- * furthest offset from home; the motion eases out to the peak and back. If the
- * activity is interrupted, `cancelWindowMove()` snaps the window home.
+ * Ask the main process to glide the window along an out-and-back path. The main
+ * process captures the current position as "home" and animates using absolute
+ * positions derived from it, so the window returns to the exact home pixel with
+ * no cumulative drift (important under Windows DPI scaling). `peakX`/`peakY` are
+ * the furthest offset from home. Skipped when reduced-motion is requested.
  */
-function moveWindowRoundTrip(peakX: number, peakY: number, durationMs: number): void {
-  if (!mascotBridge?.moveBy) return;
-  // Honor the OS reduced-motion setting: skip gliding the window around.
+function startWindowTravel(peakX: number, peakY: number, durationMs: number): void {
+  if (!mascotBridge?.travel) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const move = mascotBridge.moveBy.bind(mascotBridge);
-  cancelWindowMove();
-  const start = performance.now();
-  let sentX = 0;
-  let sentY = 0;
-
-  const step = (targetX: number, targetY: number): void => {
-    const nextX = Math.round(targetX);
-    const nextY = Math.round(targetY);
-    const dx = nextX - sentX;
-    const dy = nextY - sentY;
-    if (dx !== 0 || dy !== 0) move(dx, dy);
-    sentX = nextX;
-    sentY = nextY;
-  };
-
-  // Allow an interrupt to return the window home immediately.
-  moveHome = () => step(0, 0);
-
-  const frame = (now: number): void => {
-    const t = Math.min(1, (now - start) / durationMs);
-    // sin(0..π) => smooth out to peak at t=0.5 and back to 0 at t=1.
-    const k = Math.sin(t * Math.PI);
-    step(peakX * k, peakY * k);
-    if (t < 1) {
-      moveRaf = window.requestAnimationFrame(frame);
-    } else {
-      step(0, 0); // guarantee exact return home
-      moveRaf = undefined;
-      moveHome = undefined;
-    }
-  };
-
-  moveRaf = window.requestAnimationFrame(frame);
+  mascotBridge.travel(peakX, peakY, durationMs);
 }
 
 /** Stop any in-flight window glide and snap the window back to its home spot. */
 function cancelWindowMove(): void {
-  if (moveRaf !== undefined) {
-    window.cancelAnimationFrame(moveRaf);
-    moveRaf = undefined;
-  }
-  if (moveHome) {
-    moveHome();
-    moveHome = undefined;
-  }
+  mascotBridge?.travelCancel?.();
 }
 
 const IDLE_ACTIVITIES: IdleActivity[] = [
@@ -148,12 +110,12 @@ const IDLE_ACTIVITIES: IdleActivity[] = [
   {
     className: "activity-travel",
     durationMs: 3000,
-    run: () => moveWindowRoundTrip(280, 0, 3000),
+    run: () => startWindowTravel(280, 0, 3000),
   },
   {
     className: "activity-nudge",
     durationMs: 1600,
-    run: () => moveWindowRoundTrip(-70, 0, 1600),
+    run: () => startWindowTravel(-70, 0, 1600),
   },
 ];
 
@@ -168,8 +130,6 @@ let captionTimer: number | undefined;
 let activityStartTimer: number | undefined;
 let activityEndTimer: number | undefined;
 let lastActivityIndex = -1;
-let moveRaf: number | undefined;
-let moveHome: (() => void) | undefined;
 
 function truncate(text: string, max = 42): string {
   const clean = text.replace(/\s+/g, " ").trim();

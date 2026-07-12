@@ -12,8 +12,12 @@ contextBridge.exposeInMainWorld("mascotApi", {
       callback(payload);
     });
   },
-  /** Move the mascot window by an integer pixel delta (used by idle activities). */
-  moveBy(dx: number, dy: number): void {
-    ipcRenderer.send("mascot:moveBy", dx, dy);
+  /** Glide the mascot window out-and-back (animation runs in the main process). */
+  travel(peakX: number, peakY: number, durationMs: number): void {
+    ipcRenderer.send("mascot:travel", peakX, peakY, durationMs);
+  },
+  /** Cancel an in-flight glide and snap the window home. */
+  travelCancel(): void {
+    ipcRenderer.send("mascot:travelCancel");
   },
 });
