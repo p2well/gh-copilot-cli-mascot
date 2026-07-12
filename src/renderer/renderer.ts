@@ -17,7 +17,12 @@ interface MascotApi {
   onState(callback: (payload: StatePayload) => void): void;
 }
 
-const mascotApi: MascotApi | undefined = (window as unknown as { mascotApi?: MascotApi })
+// Read the bridge from the global exposed by the preload script. The local
+// binding must NOT be named `mascotApi`: the preload's
+// contextBridge.exposeInMainWorld("mascotApi", ...) already defines a global
+// `mascotApi`, and re-declaring it with `const` in this classic script throws
+// "Identifier 'mascotApi' has already been declared", aborting the whole file.
+const mascotBridge: MascotApi | undefined = (window as unknown as { mascotApi?: MascotApi })
   .mascotApi;
 
 const STATES: MascotState[] = ["idle", "thinking", "working", "done", "error"];
@@ -99,8 +104,8 @@ function applyState(payload: StatePayload): void {
 // Start idle.
 applyState({ state: "idle" });
 
-if (mascotApi) {
-  mascotApi.onState(applyState);
+if (mascotBridge) {
+  mascotBridge.onState(applyState);
 } else {
   // eslint-disable-next-line no-console
   console.warn("[mascot] mascotApi not available; running without live updates");
